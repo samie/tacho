@@ -78,12 +78,20 @@ def testScale(reverse = False):
        time.sleep(1)
     print 'done.'
 
-def cpuinfo():
+def cpuInfo():
     print 'Showing CPU status...'
     while (True):
        cpu = psutil.cpu_percent()
        setValue(cpu/10)
        time.sleep(1)
+
+def networkInfo():
+    print 'Showing network status (M/s)...'
+    while (True):
+       nwBefore = psutil.net_io_counters()
+       time.sleep(1)
+       nwAfter = psutil.net_io_counters()
+       setValue(float(nwAfter.bytes_recv - nwBefore.bytes_recv)/ float(1000000))
 
 def main(argv):
     if 'test' == argv[1]:
@@ -94,14 +102,17 @@ def main(argv):
         stop()
     elif 'cpu' == argv[1]:
          start()
-         cpuinfo()
+         cpuInfo()
+    elif 'network' == argv[1]:
+         start()
+         networkInfo()
     elif len(argv) > 1:
          start()
          setValue(argv[1])
          time.sleep(5)
          stop
     else:
-         print 'Usage: %s [test|cpu] [quiet]' % argv[0]
+         print 'Usage: %s [test|cpu|network] [quiet]' % argv[0]
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11,GPIO.OUT)
