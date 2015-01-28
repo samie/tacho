@@ -1,10 +1,10 @@
-# tacho
+# Tacho
 Python script to drive a tachometer on Raspberry Pi GPIO using PWM
 
 ![Screenshot](/tacho-network.jpg?raw=true "Network traffic MB/s")
 
- Required hardware and schematics
- ----
+
+## Required hardware and schematics
 
  The components needed to drive a standard automotive RPM gauge are
  pretty simple. You need:
@@ -21,8 +21,8 @@ normal led, so putting a small ~200 Ohm resistor makes it ok with 3.3V.
 The Hz is calibrated to [specific hardware](http://biltema.se/sv/Bil---MC/Bil-tillbehor/Bil-el/Instrument/Varvraknare-32251/) using the calibration array in the beginning of the script. You probably need to adjust the numbers 
 here to make it match your hardware. 
 
-Operating modes
-----
+## Operating modes
+
 
 Run the script by giving the operating more as the first parameter:
 
