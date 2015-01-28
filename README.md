@@ -37,4 +37,4 @@ For example the following puts the script to refresh CPU on the background
 
     sudo ./tacho.py cpu quiet &
 
-Note that because GPIO on RPi needs root access, so sudo is used.
+Note, that because GPIO on RPi needs root access 'sudo' must be used.
