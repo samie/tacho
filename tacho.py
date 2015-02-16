@@ -2,6 +2,7 @@
 
 import sys
 import math
+import mosquitto
 import time
 import psutil
 import atexit
@@ -93,6 +94,23 @@ def networkInfo():
        nwAfter = psutil.net_io_counters()
        setValue(float(nwAfter.bytes_recv - nwBefore.bytes_recv)/ float(1000000))
 
+# MQTT Stuff
+def mqtt(url, topic):
+    print 'MQTT mode. Subscribing %s topic "%s"' % (url,topic) 
+    mqttc = mosquitto.Mosquitto("tacho.py")
+    mqttc.on_message = on_message
+    mqttc.on_connect = on_connect
+    mqttc.connect(url, 1883, 60, True)
+    mqttc.subscribe(topic, 2)
+    while mqttc.loop() == 0:
+        pass
+
+def on_connect(rc):
+    print 'Connected to MQTT'
+
+def on_message(msg):
+    setValue(msg.payload)
+
 def main(argv):
     if 'test' == argv[1]:
         start()
@@ -106,13 +124,16 @@ def main(argv):
     elif 'network' == argv[1]:
          start()
          networkInfo()
+    elif 'mqtt' == argv[1]:
+         start()
+         mqtt(argv[2],argv[3])
     elif len(argv) > 1:
          start()
          setValue(argv[1])
          time.sleep(5)
          stop
     else:
-         print 'Usage: %s [test|cpu|network] [quiet]' % argv[0]
+         print 'Usage: %s [test|cpu|network|mqtt] [mqtt broker url] [mqtt topic] [quiet]' % argv[0]
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11,GPIO.OUT)
