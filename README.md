@@ -30,6 +30,7 @@ Run the script by giving the operating more as the first parameter:
 - [value] - displays the given float value between 1-8
 - cpu - displays CPU load percentage from 0 up to 80%
 - network - displays network inbound traffic in MB/s.
+- mqtt [server] [topic] - subscribes to MQTT broker / topic for values.
 
 Optional 'quiet' parameter disables the console output.
 
